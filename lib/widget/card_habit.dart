@@ -15,7 +15,7 @@ class _CardHabitState extends State<CardHabit> {
   @override
 
 
-  void onTapCount() {
+  void _onTapCount() {
     final current = widget.habit.dailyProgress[widget.day] ?? 0;
     if(current >= widget.habit.maxCount!) return;
     setState(() {
@@ -40,11 +40,18 @@ class _CardHabitState extends State<CardHabit> {
     }
   }
 
+  void _onFinish() {
+    setState(() {
+      widget.habit.dailyProgress[widget.day] = 1;
+      widget.habit.streakCount += 1;
+    });
+  }
+
   void onContinue() {}
   Widget build(BuildContext context) {
     String title = 'Chuỗi ${widget.habit.streakCount} ngày';
     if(widget.habit.type == HabitType.duration) {
-      title = '${widget.habit.dailyProgress[widget.day]}/${widget.habit.targetMinutes} * $title';
+      title = '${widget.habit.dailyProgress[widget.day] ?? 0}/${widget.habit.targetMinutes} * $title';
     } else if(widget.habit.type == HabitType.checkbox && !widget.habit.isDoneToday) {
       title = 'Chưa xong * $title';
     }
@@ -87,7 +94,7 @@ class _CardHabitState extends State<CardHabit> {
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('${widget.habit.dailyProgress[widget.day]}/${widget.habit.maxCount}'),
+            Text('${widget.habit.dailyProgress[widget.day] ?? 0}/${widget.habit.maxCount}'),
             SizedBox(width: 5,),
             Container(
               padding: EdgeInsets.all(8),
@@ -95,7 +102,7 @@ class _CardHabitState extends State<CardHabit> {
                 border: Border.all(color: Colors.blueAccent, width: 0.5),
               ),
               child: GestureDetector(
-                onTap: onTapCount,
+                onTap: _onTapCount,
                   child: Icon(Icons.add, color: Colors.blueAccent,)
               ),
             )
@@ -104,17 +111,18 @@ class _CardHabitState extends State<CardHabit> {
       case HabitType.checkbox:
         return Checkbox(value: widget.habit.isDoneToday, onChanged: onCheck);
       case HabitType.duration:
-        return Container(
+        return
+        Container(
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.blueAccent, width: 1)
           ),
-          child: GestureDetector(
+          child: widget.habit.isDoneToday ?
+              Text('Đã hoàn thành')
+          : GestureDetector(
             onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => TimerScreen(duration: Duration(minutes: widget.habit.targetMinutes ?? 0), onFinish: () {
               Navigator.pop(context);
-              setState(() {
-                widget.habit.streakCount += 1;
-              });
+              _onFinish();
             }))),
             child: Text('Tiếp tục', style: TextStyle(color: Colors.blueAccent),),
           ),

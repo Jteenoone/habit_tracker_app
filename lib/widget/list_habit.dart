@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:habbit_tracker_app/model/habit.dart';
 import 'package:habbit_tracker_app/widget/card_habit.dart';
 
@@ -20,7 +21,32 @@ class _ListHabitState extends State<ListHabit> {
     return ListView.builder(
       itemCount: habitsDay.length,
         itemBuilder: (context, index) {
-          return CardHabit(habit: habitsDay[index], day: widget.day);
+          return Slidable(
+            endActionPane: ActionPane(
+                motion: const DrawerMotion(),
+                children: [
+                  SlidableAction(
+                      onPressed: (context) {
+                        //sua
+                      },
+                    backgroundColor: Colors.blue.shade100,
+                    foregroundColor: Colors.black,
+                    icon: Icons.edit_outlined,
+                    label: 'Sửa',
+                  ),
+                  SlidableAction(
+                    onPressed: (context) {
+                      // xoa
+                    },
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete_outline,
+                    label: 'Xóa',
+                  ),
+                ]
+            ),
+              child: CardHabit(habit: habitsDay[index], day: widget.day)
+          );
         }
     );
   }

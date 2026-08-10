@@ -11,7 +11,10 @@ class TimerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CircularCountdown(duration: duration, onFinish: onFinish,);
+    return Scaffold(
+    appBar: AppBar(),
+      body: CircularCountdown(duration: duration, onFinish: onFinish,)
+    );
   }
 }
 

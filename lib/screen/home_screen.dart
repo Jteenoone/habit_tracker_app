@@ -2,6 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:habbit_tracker_app/formatters/date_formatter.dart';
 import 'package:habbit_tracker_app/model/habit.dart';
+import 'package:habbit_tracker_app/screen/calendar_screen.dart';
+import 'package:habbit_tracker_app/screen/habit_new_screen.dart';
+import 'package:habbit_tracker_app/screen/setting_screen.dart';
+import 'package:habbit_tracker_app/screen/statistics_screen.dart';
 import 'package:habbit_tracker_app/widget/list_habit.dart';
 import 'package:habbit_tracker_app/widget/sidebar_date.dart';
 
@@ -59,10 +63,17 @@ class _HomeScreenState extends State<HomeScreen> {
         dailyProgress: { DateTime(2026, 8, 3): 0},
     )
   ];
+
   @override
   Widget build(BuildContext context) {
-    print(selectedDate.weekday);
    return Scaffold(
+     floatingActionButton: Container(
+       padding: EdgeInsets.all(8),
+       decoration: BoxDecoration(color: Colors.blueAccent),
+       child: IconButton(onPressed: () => Navigator.push(
+           context,
+           MaterialPageRoute(builder: (context) => HabitNewScreen())), icon: Icon(Icons.add, size: 35,color: Colors.white,))
+     ),
      body: Padding(padding: EdgeInsets.fromLTRB(10, 50, 10, 10),
         child: Column(
          children: [
