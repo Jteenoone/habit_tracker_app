@@ -14,14 +14,11 @@ class CardHabit extends StatefulWidget{
 class _CardHabitState extends State<CardHabit> {
   @override
 
-
   void _onTapCount() {
     final current = widget.habit.dailyProgress[widget.day] ?? 0;
     if(current >= widget.habit.maxCount!) return;
     setState(() {
-      if(widget.habit.dailyProgress[widget.day] != null) {
-        widget.habit.dailyProgress[widget.day] = widget.habit.dailyProgress[widget.day]! + 1;
-      }
+      widget.habit.dailyProgress[widget.day] = current + 1;
       if(widget.habit.isDoneToday) {
         widget.habit.streakCount += 1;
       }
@@ -29,8 +26,8 @@ class _CardHabitState extends State<CardHabit> {
   }
 
   void onCheck(value) {
+    final current = widget.habit.dailyProgress[widget.day] ?? 0;
     setState(() {
-      final current = widget.habit.dailyProgress[widget.day] ?? 0;
       widget.habit.dailyProgress[widget.day] = current >= 1 ? 0 : 1;
     });
     if(widget.habit.isDoneToday) {

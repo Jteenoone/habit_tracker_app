@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:habbit_tracker_app/formatters/date_formatter.dart';
 
 enum HabitType {checkbox, count, duration, avoidance}
 
@@ -44,7 +45,7 @@ class Habit {
   static DateTime _normalize(DateTime date) => DateTime(date.year, date.month, date.day);
 
   bool isActiveOne(DateTime date) {
-    final d = DateTime(date.day, date.month, date.year);
+    final d = _normalize(date);
     if(d.isBefore(DateTime(startDay.day, startDay.month, startDay.year))) {
       return false;
     } if(endDay != null && d.isAfter(endDay!)) {
@@ -53,10 +54,18 @@ class Habit {
     return weekDays.contains(date.weekday);
   }
 
+  bool isDoneDay(DateTime date) {
+    final d = _normalize(date);
+    int dayProgress = dailyProgress[d] ?? 0;
+    if(type == HabitType.avoidance) return true;
+    return dayProgress >= target;
+  } 
+
   int get todayProgress {
     final key = _normalize(DateTime.now());
     return dailyProgress[key] ?? 0;
   }
+
   int get target {
     switch(type) {
       case HabitType.checkbox:
@@ -77,5 +86,20 @@ class Habit {
   int get clearDays {
     if(clearStartDate == null) return 0;
     return DateTime.now().difference(clearStartDate!).inDays;
+  }
+}
+
+extension HabitTypeExtension on HabitType{
+  String get label {
+    switch(this) {
+      case HabitType.checkbox:
+        return 'Xong/ chưa';
+      case HabitType.count:
+        return 'Đếm số lần';
+      case HabitType.duration:
+        return 'Thời lượng';
+      case HabitType.avoidance:
+        return 'Thói quen khó bỏ';
+    }
   }
 }

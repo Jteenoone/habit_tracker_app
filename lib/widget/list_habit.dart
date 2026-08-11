@@ -22,8 +22,9 @@ class _ListHabitState extends State<ListHabit> {
       itemCount: habitsDay.length,
         itemBuilder: (context, index) {
           return Slidable(
-            endActionPane: ActionPane(
-                motion: const DrawerMotion(),
+            startActionPane: ActionPane(
+                motion: const ScrollMotion(),
+                extentRatio: 0.45,
                 children: [
                   SlidableAction(
                       onPressed: (context) {
