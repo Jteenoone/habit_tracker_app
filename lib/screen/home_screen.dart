@@ -2,16 +2,17 @@
 import 'package:flutter/material.dart';
 import 'package:habbit_tracker_app/formatters/date_formatter.dart';
 import 'package:habbit_tracker_app/model/habit.dart';
+import 'package:habbit_tracker_app/provider/habit_provider.dart';
 import 'package:habbit_tracker_app/screen/calendar_screen.dart';
 import 'package:habbit_tracker_app/screen/habit_new_screen.dart';
 import 'package:habbit_tracker_app/screen/setting_screen.dart';
 import 'package:habbit_tracker_app/screen/statistics_screen.dart';
 import 'package:habbit_tracker_app/widget/list_habit.dart';
 import 'package:habbit_tracker_app/widget/sidebar_date.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget{
-  final List<Habit> habits;
-  const HomeScreen({super.key, required this.habits});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -66,7 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final habitsOfDay = widget.habits.where((h) => h.isActiveOne(selectedDate));
+    final habits = context.watch<HabitProvider>().habits;
+    final habitsOfDay = habits.where((h) => h.isActiveOne(selectedDate));
     final completed = habitsOfDay.where((h) => h.isDoneDay(selectedDate)).length;
     final total = habitsOfDay.length;
    return Scaffold(
@@ -120,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
            SizedBox(height: 10,),
            _buildProgress(completed, total),
            Expanded(
-               child: ListHabit(day: selectedDate, habits: widget.habits)
+               child: ListHabit(day: selectedDate, habits: habits)
            ),
          ],
        ),

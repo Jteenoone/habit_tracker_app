@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:habbit_tracker_app/formatters/date_formatter.dart';
+import 'package:habbit_tracker_app/provider/habit_provider.dart';
 import 'package:habbit_tracker_app/widget/calendar_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../model/habit.dart';
 
 class CalendarScreen extends StatefulWidget {
-  final List<Habit> habits;
-  const CalendarScreen({super.key, required this.habits});
+  const CalendarScreen({super.key});
   
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
@@ -24,7 +25,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-   final habitOfDay = widget.habits.where((h) => h.isActiveOne(currentDate)).toList();
+    final habits = context.watch<HabitProvider>().habits;
+   final habitOfDay = habits.where((h) => h.isActiveOne(currentDate)).toList();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 50),
       child: Column(
@@ -33,7 +35,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           Text('Lịch', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),),
           Text('Toàn bô thói quen', style: TextStyle(color: Colors.grey, fontSize: 15),),
           SizedBox(height: 10,),
-          CalendarWidget(habits: widget.habits, onSelected: (d) => setState(() {
+          CalendarWidget(habits: habits, onSelected: (d) => setState(() {
             setState(() {
               currentDate = d;
             });

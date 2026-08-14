@@ -37,10 +37,10 @@ class Habit {
     this.maxCount,
     this.unit,
     this.clearStartDate,
-    this.dailyProgress = const {},
+    Map<DateTime, int>? dailyProgress, 
     this.streakCount = 0,
     required this.createAt
-  });
+  }) : dailyProgress = dailyProgress != null ? Map.from(dailyProgress) :  {};
 
   static DateTime _normalize(DateTime date) => DateTime(date.year, date.month, date.day);
 

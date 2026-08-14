@@ -14,8 +14,8 @@ class HabitNewScreen extends StatefulWidget {
 class _HabitNewScreenState extends State<HabitNewScreen> {
   final TextEditingController _habitNameInputController = TextEditingController();
   late IconData icon;
-  late HabitType habitType;
-  late int target; 
+  HabitType habitType = HabitType.checkbox;
+  int target = 0; 
   List<int> selectedDay = [];
   List<HabitType> listHabitType =[
     HabitType.checkbox,
@@ -97,6 +97,7 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
                     bool isSelected = _indexSelected == index;
                     return _buildCardTypeHabit(listHabitType[index].label, () {
                       setState(() {
+                        habitType = listHabitType[index];
                         _indexSelected = index;
                       });
                     }, isSelected);
@@ -189,6 +190,7 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
                return Expanded(
                    child: _buildCardIcon(listIcons[index], isSelected, () {
                      setState(() {
+                      icon = listIcons[index];
                        indexIconSelected = index;
                  });
                })
@@ -209,7 +211,9 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
                     icon: icon, type: habitType,
                      weekDays: selectedDay,
                       startDay: DateFormatter.dateTime(DateTime.now()),
-                       createAt:  DateFormatter.dateTime(DateTime.now())
+                       createAt:  DateFormatter.dateTime(DateTime.now()),
+                       maxCount: target,
+                       targetMinutes: target
                        )
                   );
                 }, 

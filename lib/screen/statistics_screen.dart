@@ -2,11 +2,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:habbit_tracker_app/formatters/date_formatter.dart';
 import 'package:habbit_tracker_app/model/habit.dart';
+import 'package:habbit_tracker_app/provider/habit_provider.dart';
 import 'package:habbit_tracker_app/service/statistics_service.dart';
+import 'package:provider/provider.dart';
 
 class StatisticsScreen extends StatefulWidget {
-  final List<Habit> habits;
-  const StatisticsScreen({super.key, required this.habits});
+  const StatisticsScreen({super.key});
 
   @override
   State<StatisticsScreen> createState() => _StatisticsScreenState();
@@ -16,9 +17,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   late  StatisticsService _statisticsService;
 
     @override
-    void initState() {
-      super.initState();
-      _statisticsService = StatisticsService(widget.habits);
+     void didChangeDependencies()  {
+      super.didChangeDependencies();
+      final habits = context.watch<HabitProvider>().habits;
+      _statisticsService = StatisticsService(habits);
 
     }
 
