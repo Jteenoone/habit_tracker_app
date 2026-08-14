@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:habbit_tracker_app/provider/habit_provider.dart';
 import 'package:habbit_tracker_app/screen/home_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'model/habit.dart';
 import 'screen/calendar_screen.dart';
@@ -7,7 +9,12 @@ import 'screen/setting_screen.dart';
 import 'screen/statistics_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => HabitProvider(), 
+      child: const MyApp()
+    )
+    );
 }
 
 class MyApp extends StatelessWidget {
@@ -81,7 +88,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> get listWidgets => <Widget>[
     HomeScreen(habits: habits,),
     CalendarScreen(habits: habits),
-    StatisticsScreen(),
+    StatisticsScreen(habits: habits,),
     SettingScreen(),
   ];
   int _currentIndex = 0;

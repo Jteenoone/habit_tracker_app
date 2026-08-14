@@ -59,7 +59,7 @@ class Habit {
     int dayProgress = dailyProgress[d] ?? 0;
     if(type == HabitType.avoidance) return true;
     return dayProgress >= target;
-  } 
+  }
 
   int get todayProgress {
     final key = _normalize(DateTime.now());

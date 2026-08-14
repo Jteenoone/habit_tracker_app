@@ -106,7 +106,7 @@ class _CardHabitState extends State<CardHabit> {
           ],
         );
       case HabitType.checkbox:
-        return Checkbox(value: widget.habit.isDoneToday, onChanged: onCheck);
+        return Checkbox(value: widget.habit.isDoneDay(widget.day), onChanged: onCheck);
       case HabitType.duration:
         return
         Container(

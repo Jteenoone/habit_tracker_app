@@ -13,7 +13,8 @@ class TimerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
     appBar: AppBar(),
-      body: CircularCountdown(duration: duration, onFinish: onFinish,)
+      body:Center(child:  CircularCountdown(duration: duration, onFinish: onFinish,)),
+    backgroundColor: Colors.white,
     );
   }
 }

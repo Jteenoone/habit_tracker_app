@@ -64,7 +64,7 @@ class _CircularCountdownState extends State<CircularCountdown> {
                   valueColor: AlwaysStoppedAnimation(Colors.green),
                 ),
               ),
-              Text(_label, style: TextStyle(color: Colors.white),),
+              Text(_label, style: TextStyle(color: Colors.black),),
             ],
           ),
         ),

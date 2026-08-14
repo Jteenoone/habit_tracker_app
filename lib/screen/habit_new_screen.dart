@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:habbit_tracker_app/formatters/date_formatter.dart';
 import 'package:habbit_tracker_app/model/habit.dart';
+import 'package:habbit_tracker_app/provider/habit_provider.dart';
+import 'package:provider/provider.dart';
 
 class HabitNewScreen extends StatefulWidget {
   const HabitNewScreen({super.key});
@@ -9,7 +12,11 @@ class HabitNewScreen extends StatefulWidget {
 }
 
 class _HabitNewScreenState extends State<HabitNewScreen> {
-  TextEditingController _habitNameInputController = TextEditingController();
+  final TextEditingController _habitNameInputController = TextEditingController();
+  late IconData icon;
+  late HabitType habitType;
+  late int target; 
+  List<int> selectedDay = [];
   List<HabitType> listHabitType =[
     HabitType.checkbox,
     HabitType.count,
@@ -28,7 +35,6 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
   final List<String> listDays = [
     'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'
   ];
-  List<int> selectedDay = [];
   int _indexSelected = 0;
   int selectedValue = 1;
   int indexIconSelected = 0;
@@ -44,6 +50,7 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
         title: Text('Thói quen mới'),
         leading: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.close, size: 30,)),
       ),
+      resizeToAvoidBottomInset: false,
       body: Padding(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
        child: Column(
          crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,12 +201,25 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
+              child: GestureDetector(
+                onTap: () {
+                  context.read<HabitProvider>().addHabit(
+                  Habit(id: '03',
+                   name: _habitNameInputController.text,
+                    icon: icon, type: habitType,
+                     weekDays: selectedDay,
+                      startDay: DateFormatter.dateTime(DateTime.now()),
+                       createAt:  DateFormatter.dateTime(DateTime.now())
+                       )
+                  );
+                }, 
               child: Center(
                 child: Text(
                   'Lưu thói quen',
                   style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
                 ),
               ),
+            )
             )
           ],
         )

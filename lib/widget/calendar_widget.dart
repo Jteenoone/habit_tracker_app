@@ -23,7 +23,13 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     currentMonth.month + 1,
     0
   ).day;
-  
+  final List<Color> colors= [
+    Color(0xFF2C455D),
+    Color(0xFF749DC4),
+    Color(0xFFB5D9FD),
+    Color(0xFFD6EBFF),
+    Colors.white
+  ];
   late DateTime currentDay = currentMonth;
   int get firstDay => DateTime(
     currentMonth.year,
@@ -131,20 +137,70 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               }
               int day = index - (firstDay - 1) + 1;
               bool isSelected = day == currentDay.day;
+              
+              DateTime dateTime = DateFormatter.dateTime(DateTime(currentMonth.year, currentMonth.month, day));
+              final habitOfDay = widget.habits.where((h) => h.isActiveOne(dateTime)).toList();
+              final progress = habitOfDay.fold(
+                0,
+                (sum, h) => sum + (h.isDoneDay(dateTime) ? 1 : 0),
+              ) / habitOfDay.length;
+              final today = DateTime.now();
+              final isPastOrToday =
+                  dateTime.year < today.year ||
+                  (dateTime.year == today.year && dateTime.month < today.month) ||
+                  (dateTime.year == today.year &&
+                      dateTime.month == today.month &&
+                      dateTime.day <= today.day);
+
+              Color color = Colors.white;
+              if (isPastOrToday) {
+                if(progress  > 0.9) {
+                  color = colors[0];
+                } else if(progress > 0.7) {
+                  color = colors[1];
+                } else if(progress > 0.5) {
+                  color = colors[2];
+                } else if(progress > 0.3) {
+                  color = colors[3];
+                }
+              }
+              bool isColorWhite = color == Colors.white;
               return GestureDetector(
                 onTap: () => onTap(day),
                 child: Container(
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  border: Border.all(color: isSelected ? Colors.black : Colors.grey, width: isSelected ? 2 : 1)
+                  color: color,
+                  border: Border.all(color: isSelected ? Colors.black : Colors.grey, width: isSelected ? 2 : isColorWhite ? 1 : 0)
                 ),
-                child: isDayInMonth ?
-                Text('$day')
-                    :null
+                child:Text('$day')
+                
               )
               );
             }
-        )
+        ),
+        SizedBox(height: 10,),
+        Row(
+          children: [
+            Text('ít'),
+            SizedBox(width: 10,),
+            Row(
+              spacing: 10,
+              children: List.generate(colors.length, (index) {
+                return Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    color: colors[colors.length - index - 1],
+                    border: Border.all(color: Colors.grey, width: index == 0 ? 1 : 0)
+                  ),
+                );
+              })
+              ,),
+              SizedBox(width: 10),
+              Text('đủ')
+          ],
+          )
     ]
     );
   }

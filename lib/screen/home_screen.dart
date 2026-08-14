@@ -20,7 +20,6 @@ class HomeScreen extends StatefulWidget{
 class _HomeScreenState extends State<HomeScreen> {
   late DateTime now = DateFormatter.dateTime(DateTime.now());
   DateTime selectedDate = DateFormatter.dateTime(DateTime.now());
-  // late List<Habit> habits = [
   //   Habit(
   //       id: '01',
   //       name: 'Uống đủ nước',
@@ -67,6 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final habitsOfDay = widget.habits.where((h) => h.isActiveOne(selectedDate));
+    final completed = habitsOfDay.where((h) => h.isDoneDay(selectedDate)).length;
+    final total = habitsOfDay.length;
    return Scaffold(
      floatingActionButton: Container(
        padding: EdgeInsets.all(8),
@@ -116,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SidebarDate(onSelect: (d) => setState(() {selectedDate = d;}),),
            ),
            SizedBox(height: 10,),
+           _buildProgress(completed, total),
            Expanded(
                child: ListHabit(day: selectedDate, habits: widget.habits)
            ),
@@ -123,5 +126,26 @@ class _HomeScreenState extends State<HomeScreen> {
        ),
      )
    );
+  }
+
+  Widget _buildProgress(int completed, int total) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('$completed/$total  thói quen', style: TextStyle(color: Colors.grey),),
+            Text(('${(completed/total * 100).toInt()}%'), style: TextStyle(color: Colors.grey),)
+          ]
+        ),
+        SizedBox(height: 10,),
+        LinearProgressIndicator(
+          value: completed / total,
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.blue,
+        )
+      ],
+    );
   }
 }
