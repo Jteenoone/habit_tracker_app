@@ -6,7 +6,7 @@ class HabitProvider extends ChangeNotifier{
      Habit(
       id: '01',
       name: 'Uống đủ nước',
-      icon: Icons.water_drop_outlined,
+      iconName: 'water',
       type: HabitType.count,
       weekDays: [1, 2, 3, 4],
       startDay: DateTime(2026, 8, 3),
@@ -17,7 +17,7 @@ class HabitProvider extends ChangeNotifier{
     Habit(
       id: '02',
       name: 'Chạy bộ 3km',
-      icon: Icons.run_circle_outlined,
+      iconName: 'run',
       type: HabitType.checkbox,
       weekDays: [1, 2, 3, 4],
       startDay: DateTime(2026, 8, 3),
@@ -27,7 +27,7 @@ class HabitProvider extends ChangeNotifier{
     Habit(
         id: '03',
         name: 'Học tiếng anh',
-        icon: Icons.book_rounded,
+        iconName: 'book',
         type: HabitType.duration,
         weekDays: [1, 2, 3, 4, 5],
         startDay: DateTime(2026, 8, 3),
@@ -38,7 +38,7 @@ class HabitProvider extends ChangeNotifier{
     Habit(
       id: '04',
       name: 'Học thuốc lá',
-      icon: Icons.not_interested_outlined,
+      iconName: 'not',
       type: HabitType.avoidance,
       weekDays: [1, 2, 3, 4, 5, 6, 7],
       startDay: DateTime(2026, 8, 3),

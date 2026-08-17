@@ -15,6 +15,15 @@ class ListHabit extends StatefulWidget {
 }
 
 class _ListHabitState extends State<ListHabit> {
+
+  static const iconMap = {
+    'book': Icons.book,
+    'fitness': Icons.fitness_center,
+    'water': Icons.water_drop,
+    'favorite': Icons.favorite,
+    'run': Icons.run_circle_outlined,
+    'not': Icons.not_interested_outlined
+  };
   @override
   Widget build(BuildContext context) {
     final habitsDay = widget.habits.where((habit) => habit.weekDays.contains(widget.day.weekday)).toList();
@@ -64,7 +73,7 @@ class _ListHabitState extends State<ListHabit> {
             decoration: BoxDecoration(
               border: Border.all(color: Color(0xFFD0D0D1), width: 1)
             ),
-            child: Icon(habit.icon, color: Colors.blueAccent,),
+            child: Icon(iconMap[habit.iconName] , color: Colors.blueAccent,),
           ),
           Column(
             children: [

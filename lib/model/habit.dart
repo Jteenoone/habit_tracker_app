@@ -1,34 +1,72 @@
 
 import 'package:flutter/material.dart';
 import 'package:habbit_tracker_app/formatters/date_formatter.dart';
+import 'package:hive/hive.dart';
+part 'habit.g.dart';
 
-enum HabitType {checkbox, count, duration, avoidance}
+@HiveType(typeId: 1)
+enum HabitType {
+  @HiveField(0)
+  checkbox,
 
+  @HiveField(1)
+  count,
+
+  @HiveField(2)
+  duration,
+
+  @HiveField(3)
+  avoidance
+  }
+
+@HiveType(typeId: 0)
 class Habit {
+  @HiveField(0)
   final String id;
+
+   @HiveField(1)
   final String name;
-  final IconData icon;
+
+   @HiveField(2)
+  final String iconName;
+
+   @HiveField(3)
   final HabitType type;
+
+   @HiveField(4)
   final List<int> weekDays;
+
+   @HiveField(5)
   final DateTime startDay;
+
+   @HiveField(6)
   final DateTime? endDay;
 
+  @HiveField(7)
   final int? targetMinutes;
 
+  @HiveField(8)
   final int? maxCount;
+
+   @HiveField(9)
   final String? unit;
 
+   @HiveField(10)
   final DateTime? clearStartDate;
 
+   @HiveField(11)
   final Map<DateTime, int> dailyProgress;
-
+  
+   @HiveField(12)
   final DateTime createAt;
+  
+  @HiveField(13)
   int streakCount;
 
   Habit({
     required this.id,
     required this.name,
-    required this.icon,
+    required this.iconName,
     required this.type,
     required this.weekDays,
     required this.startDay,

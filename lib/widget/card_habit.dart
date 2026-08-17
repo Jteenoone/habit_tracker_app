@@ -12,7 +12,15 @@ class CardHabit extends StatefulWidget{
 }
 
 class _CardHabitState extends State<CardHabit> {
-  @override
+  
+   static const iconMap = {
+    'book': Icons.book,
+    'fitness': Icons.fitness_center,
+    'water': Icons.water_drop,
+    'favorite': Icons.favorite,
+    'run': Icons.run_circle_outlined,
+    'not': Icons.not_interested_outlined
+  };
 
   void _onTapCount() {
     final current = widget.habit.dailyProgress[widget.day] ?? 0;
@@ -68,7 +76,7 @@ class _CardHabitState extends State<CardHabit> {
             decoration: BoxDecoration(
                 border: Border.all(color: Color(0xFFD0D0D1), width: 1)
             ),
-            child: Icon(widget.habit.icon, color: Colors.blueAccent,),
+            child: Icon(iconMap[widget.habit.iconName], color: Colors.blueAccent,),
           ),
           SizedBox(width: 10,),
           Column(

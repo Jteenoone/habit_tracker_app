@@ -13,7 +13,7 @@ class HabitNewScreen extends StatefulWidget {
 
 class _HabitNewScreenState extends State<HabitNewScreen> {
   final TextEditingController _habitNameInputController = TextEditingController();
-  late IconData icon;
+  late String iconName;
   HabitType habitType = HabitType.checkbox;
   int target = 0; 
   List<int> selectedDay = [];
@@ -24,13 +24,27 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
     HabitType.avoidance
   ];
 
-  List<IconData> listIcons = [
-    Icons.water_drop_outlined,
-    Icons.timer_outlined,
-    Icons.check_box_outline_blank,
-    Icons.not_interested_outlined,
-    Icons.add,
-  ];
+  final List<String> listIcons = [
+  'book',
+  'fitness',
+  'water',
+  'sleep',
+  'work',
+  'music',
+  'food',
+  'favorite',
+];
+
+   static const iconMap = {
+  'book': Icons.book,
+  'fitness': Icons.fitness_center,
+  'water': Icons.water_drop,
+  'sleep': Icons.bedtime,
+  'work': Icons.work,
+  'music': Icons.music_note,
+  'food': Icons.restaurant,
+  'favorite': Icons.favorite,
+  };
 
   final List<String> listDays = [
     'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'
@@ -190,7 +204,7 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
                return Expanded(
                    child: _buildCardIcon(listIcons[index], isSelected, () {
                      setState(() {
-                      icon = listIcons[index];
+                      iconName = listIcons[index];
                        indexIconSelected = index;
                  });
                })
@@ -208,7 +222,7 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
                   context.read<HabitProvider>().addHabit(
                   Habit(id: '03',
                    name: _habitNameInputController.text,
-                    icon: icon, type: habitType,
+                    iconName: iconName, type: habitType,
                      weekDays: selectedDay,
                       startDay: DateFormatter.dateTime(DateTime.now()),
                        createAt:  DateFormatter.dateTime(DateTime.now()),
@@ -231,7 +245,7 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
     );
   }
 
-  Widget _buildCardIcon(IconData icon, bool isSelected, VoidCallback onTap) {
+  Widget _buildCardIcon(String iconName, bool isSelected, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -241,7 +255,7 @@ class _HabitNewScreenState extends State<HabitNewScreen> {
           border: Border.all(color: isSelected ? Colors.blue : Colors.grey, width: 0.5),
         ),
         child: Center(
-          child: Icon(icon, color: isSelected ? Colors.blue : Colors.grey,),
+          child: Icon(iconMap[iconName], color: isSelected ? Colors.blue : Colors.grey,),
         ),
       ),
     );
